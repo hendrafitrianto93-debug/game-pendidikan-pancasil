@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#172554">
+<title>BounceQuiz AI — Hak dan Kewajiban</title>
+<style>
+:root{--navy:#172554;--blue:#2563eb;--sky:#dbeafe;--ink:#172033;--muted:#64748b;--paper:#f8fafc;--green:#16a34a;--red:#dc2626;--gold:#f59e0b}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:linear-gradient(135deg,#eff6ff,#fdf2f8 55%,#fefce8);color:var(--ink);min-height:100vh}
+header{background:linear-gradient(115deg,#172554,#1d4ed8);color:white;padding:22px clamp(16px,4vw,48px);box-shadow:0 8px 24px #17255422}
+.head{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}.brand{display:flex;align-items:center;gap:14px}.logo{width:54px;height:54px;border-radius:18px;background:#ffffff20;display:grid;place-items:center;font-size:30px}.brand h1{margin:0;font-size:clamp(23px,4vw,34px);letter-spacing:-.8px}.brand p{margin:4px 0 0;color:#dbeafe;font-size:14px}.tag{border:1px solid #ffffff55;border-radius:999px;padding:8px 13px;font-size:13px;font-weight:700}
+main{max-width:1200px;margin:24px auto;padding:0 16px 40px}.meta{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}.meta div,.stat,.panel{background:#ffffffd9;border:1px solid #e2e8f0;border-radius:18px;box-shadow:0 5px 18px #1e3a8a0c}.meta div{padding:13px 16px}.meta small{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.07em;font-weight:800}.meta strong{display:block;margin-top:4px;font-size:15px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}.stat{padding:15px 18px}.stat span{color:var(--muted);font-size:13px;font-weight:700}.stat b{display:block;font-size:25px;margin-top:4px;color:var(--navy)}.progress-wrap{height:9px;background:#e2e8f0;border-radius:20px;overflow:hidden;margin-top:10px}.progress{height:100%;width:0;background:linear-gradient(90deg,#2563eb,#22c55e);transition:width .3s}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 285px;gap:16px}.panel{padding:18px}.panel h2{font-size:18px;margin:0 0 5px}.sub{color:var(--muted);font-size:13px;margin:0 0 14px}
+#arena{height:490px;position:relative;overflow:hidden;border-radius:17px;background:radial-gradient(circle at 20% 20%,#ffffff 0 2px,transparent 3px),radial-gradient(circle at 80% 70%,#ffffff 0 2px,transparent 3px),linear-gradient(145deg,#dbeafe,#ede9fe 55%,#fce7f3);background-size:80px 80px,110px 110px,auto;border:1px solid #c7d2fe}
+.ball{position:absolute;border:3px solid #ffffffcc;border-radius:50%;width:65px;height:65px;display:grid;place-items:center;color:white;font-weight:900;font-size:21px;text-shadow:0 2px 4px #0005;box-shadow:0 7px 15px #1e293b30;cursor:pointer;user-select:none;transition:filter .2s,transform .2s;z-index:2}.ball:hover{filter:brightness(1.08);transform:scale(1.08)}.ball:focus{outline:4px solid #facc15;outline-offset:2px}.ball.done{background:#94a3b8!important;cursor:not-allowed;box-shadow:none;opacity:.88}.ball.done:after{content:"✓";position:absolute;right:-4px;top:-7px;background:#16a34a;color:white;border:2px solid white;border-radius:50%;width:23px;height:23px;font-size:14px;display:grid;place-items:center;text-shadow:none}
+.side{display:flex;flex-direction:column;gap:12px}.legend{display:flex;align-items:center;gap:9px;font-size:13px;color:#475569;margin:9px 0}.dot{width:12px;height:12px;border-radius:50%;background:#3b82f6}.dot.gray{background:#94a3b8}.tip{background:#eff6ff;border-radius:14px;padding:13px;color:#1e40af;font-size:13px;line-height:1.5}.secondary{border:1px solid #cbd5e1;background:white;color:#334155;border-radius:11px;padding:10px 13px;font-weight:750;cursor:pointer}.secondary:hover{background:#f1f5f9}.primary{border:0;background:linear-gradient(100deg,#2563eb,#4f46e5);color:white;border-radius:12px;padding:12px 17px;font-weight:800;cursor:pointer;box-shadow:0 5px 12px #2563eb30}.primary:hover{filter:brightness(1.06)}button:disabled{opacity:.5;cursor:not-allowed}
+footer{text-align:center;color:#64748b;font-size:12px;padding:20px}
+.overlay{position:fixed;inset:0;background:#0f172acc;display:none;align-items:center;justify-content:center;padding:16px;z-index:10;overflow:auto}.overlay.show{display:flex}.modal{background:white;border-radius:22px;width:min(650px,100%);max-height:92vh;overflow:auto;padding:clamp(18px,4vw,28px);box-shadow:0 25px 70px #0005}.modal-top{display:flex;justify-content:space-between;align-items:center;gap:12px}.pill{display:inline-block;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:900;background:#dbeafe;color:#1d4ed8}.close{border:0;background:#f1f5f9;border-radius:50%;width:36px;height:36px;font-size:20px;cursor:pointer}.modal h2{margin:15px 0 10px;font-size:22px;line-height:1.35}.choice{display:flex;gap:10px;align-items:flex-start;padding:12px;border:1.5px solid #e2e8f0;border-radius:12px;margin:9px 0;cursor:pointer;line-height:1.4}.choice:hover{border-color:#93c5fd;background:#f8fbff}.choice input{margin-top:3px;accent-color:#2563eb}.choice.correct{border-color:#22c55e;background:#f0fdf4}.choice.wrong{border-color:#ef4444;background:#fef2f2}.explain{display:none;margin-top:14px;border-radius:13px;padding:14px;line-height:1.5;background:#f1f5f9}.explain.show{display:block}.feedback{font-weight:900;margin-bottom:5px}.oralbox{background:#f8fafc;border:1px solid #e2e8f0;padding:14px;border-radius:13px;margin:12px 0;line-height:1.5}.oralbox textarea{width:100%;min-height:85px;border:1px solid #cbd5e1;border-radius:10px;padding:10px;font:inherit;margin-top:8px}.rubric{font-size:13px;color:#475569;margin:10px 0}.score-options{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.score-options button{flex:1;min-width:100px}.teacher-note{width:100%;border:1px solid #cbd5e1;border-radius:10px;padding:10px;font:inherit}
+#result{display:none}.result-hero{text-align:center;padding:24px 10px}.result-hero .emoji{font-size:55px}.result-hero h2{font-size:30px;color:var(--navy);margin:8px 0}.result-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.result-grid div{background:#f8fafc;border:1px solid #e2e8f0;border-radius:13px;padding:13px}.result-grid small{display:block;color:#64748b;font-weight:700}.result-grid b{font-size:22px}.result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.review{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}.review th,.review td{padding:9px;border-bottom:1px solid #e2e8f0;text-align:left;vertical-align:top}.review th{background:#eff6ff}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.meta{grid-template-columns:repeat(2,1fr)}#arena{height:440px}.side{display:grid;grid-template-columns:1fr 1fr}.side .panel:first-child{grid-column:1/-1}}
+@media(max-width:480px){.stats{gap:7px}.stat{padding:11px}.stat b{font-size:20px}.meta div{padding:10px}.side{display:flex}#arena{height:410px}.ball{width:55px;height:55px;font-size:18px}.review{font-size:11px}}
+@media print{body{background:white}.no-print,header,.layout,.stats,.meta{display:none!important}main{margin:0;padding:0}#result{display:block!important}.panel{box-shadow:none;border:0}.overlay{display:none!important}.result-actions{display:none}.review th{background:#eee!important}}
+</style>
+</head>
+<body>
+<header><div class="head"><div class="brand"><div class="logo">🏀</div><div><h1>BounceQuiz AI</h1><p>Belajar sambil bermain • Asesmen Formatif</p></div></div><div class="tag">PENDIDIKAN PANCASILA · KELAS VI</div></div></header>
+<main>
+<section class="meta">
+<div><small>Mata Pelajaran</small><strong>Pendidikan Pancasila</strong></div>
+<div><small>Materi</small><strong>Hak dan Kewajiban</strong></div>
+<div><small>Kelas</small><strong>VI Sekolah Dasar</strong></div>
+<div><small>Jumlah Peserta</small><strong>15 siswa / 15 soal</strong></div>
+</section>
+<section class="stats">
+<div class="stat"><span>Terjawab</span><b id="answered">0 / 15</b><div class="progress-wrap"><div class="progress" id="progress"></div></div></div>
+<div class="stat"><span>Skor Benar</span><b id="correct">0</b></div>
+<div class="stat"><span>Skor Total</span><b id="score">0 / 1500</b></div>
+</section>
+<section class="layout" id="game">
+<div class="panel"><h2>🎯 Arena Bola Pantul</h2><p class="sub">Klik salah satu bola untuk membuka soal. Selesaikan semua bola!</p><div id="arena" aria-label="Area permainan berisi bola bernomor"></div></div>
+<aside class="side">
+<div class="panel"><h2>📌 Petunjuk Bermain</h2><div class="legend"><i class="dot"></i> Belum dijawab — klik untuk bermain</div><div class="legend"><i class="dot gray"></i> Sudah selesai — terkunci</div><div class="tip">Setiap bola berisi satu soal. Pilihan ganda dinilai otomatis, sedangkan jawaban lisan dinilai oleh guru menggunakan rubrik 0, 50, atau 100.</div></div>
+<div class="panel"><h2>📊 Komposisi Soal</h2><p class="sub">11 pilihan ganda · 4 jawaban lisan</p><button class="secondary" id="helpBtn">Lihat cara penilaian</button></div>
+</aside>
+</section>
+<section id="result" class="panel">
+<div class="result-hero"><div class="emoji">🏆</div><h2>BounceQuiz Selesai!</h2><p>Semua bola telah diselesaikan. Terus semangat belajar!</p></div>
+<div class="result-grid">
+<div><small>Jumlah Soal</small><b id="rTotal">15</b></div><div><small>Jawaban Benar</small><b id="rCorrect">0</b></div>
+<div><small>Jawaban Salah / Belum Tepat</small><b id="rWrong">0</b></div><div><small>Nilai Akhir</small><b id="rGrade">0</b></div>
+<div><small>Multiple Choice</small><b>11 soal</b></div><div><small>Oral Answer</small><b>4 soal</b></div>
+<div><small>Skor Total</small><b id="rScore">0 / 1500</b></div><div><small>Penyelesaian</small><b>100%</b></div>
+</div>
+<p id="motivation" style="text-align:center;font-weight:800;margin:18px 0"></p>
+<div class="result-actions no-print"><button class="primary" id="again">↻ Main Lagi</button><button class="secondary" id="reviewBtn">Lihat Rekap Jawaban</button><button class="secondary" id="printBtn">🖨 Cetak Hasil</button></div>
+<div id="reviewArea" style="display:none;overflow-x:auto"><h3>Rekap Asesmen Guru</h3><table class="review"><thead><tr><th>No.</th><th>Tipe</th><th>Pertanyaan</th><th>Jawaban siswa</th><th>Kunci / Indikator</th><th>Skor</th><th>Catatan guru</th></tr></thead><tbody id="reviewBody"></tbody></table></div>
+</section>
+</main>
+<footer>BounceQuiz AI · Media Asesmen Formatif Pendidikan Pancasila</footer>
+
+<div class="overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="questionTitle">
+<div class="modal">
+<div class="modal-top"><span class="pill" id="qType">PILIHAN GANDA</span><button class="close" id="closeModal" aria-label="Tutup">×</button></div>
+<div style="color:#64748b;font-size:13px;font-weight:800;margin-top:12px" id="qNumber">BOLA 1</div>
+<h2 id="questionTitle"></h2>
+<div id="questionBody"></div>
+<div class="explain" id="explain"><div class="feedback" id="feedback"></div><div id="explanation"></div></div>
+<div style="display:flex;justify-content:flex-end;gap:9px;margin-top:17px"><button class="secondary" id="cancelBtn">Tutup</button><button class="primary" id="submitBtn">Periksa Jawaban</button></div>
+</div></div>
+<div class="overlay" id="helpOverlay"><div class="modal"><div class="modal-top"><h2 style="margin:0">Cara Penilaian</h2><button class="close" id="closeHelp">×</button></div><p><b>Pilihan ganda:</b> sistem memberi 100 poin untuk jawaban benar dan 0 poin untuk jawaban salah.</p><p><b>Jawaban lisan:</b> siswa menjawab secara lisan. Guru memilih skor berdasarkan rubrik berikut:</p><ul><li><b>100 poin:</b> jawaban benar, lengkap, dan sangat tepat.</li><li><b>50 poin:</b> jawaban sebagian benar atau cukup tepat.</li><li><b>0 poin:</b> jawaban salah, tidak relevan, atau belum tepat.</li></ul><p>Nilai akhir = total skor ÷ 1500 × 100.</p></div></div>
+
+<script>
+const questions = [
+{type:"mc",difficulty:"Mudah",q:"Apa yang dimaksud dengan hak?",opts:["Sesuatu yang layak kita terima atau dapatkan","Sesuatu yang harus selalu kita hindari","Hukuman karena melanggar aturan","Pekerjaan yang hanya dilakukan orang dewasa"],a:0,why:"Hak adalah sesuatu yang pantas kita terima, peroleh, atau nikmati sesuai aturan dan tanggung jawab."},
+{type:"mc",difficulty:"Mudah",q:"Manakah contoh kewajiban anak di rumah?",opts:["Mendapat kasih sayang dari orang tua","Mendapat makanan yang sehat","Merapikan tempat tidur setelah bangun","Mendapat perlindungan keluarga"],a:2,why:"Merapikan tempat tidur merupakan tanggung jawab yang perlu dilakukan anak di rumah."},
+{type:"mc",difficulty:"Mudah",q:"Salah satu hak siswa di sekolah adalah ....",opts:["Menjaga kebersihan kelas","Mendapat penjelasan pelajaran dari guru","Mengerjakan piket sesuai jadwal","Mematuhi tata tertib sekolah"],a:1,why:"Siswa berhak memperoleh pembelajaran dan penjelasan dari guru."},
+{type:"mc",difficulty:"Sedang",q:"Mengapa hak dan kewajiban harus dilaksanakan secara seimbang?",opts:["Agar kita bebas melakukan apa saja","Agar hanya hak kita yang diperhatikan","Agar kehidupan bersama tertib dan adil","Agar kewajiban orang lain bertambah"],a:2,why:"Keseimbangan hak dan kewajiban membantu menciptakan kehidupan yang tertib, adil, dan saling menghormati."},
+{type:"mc",difficulty:"Sedang",q:"Rani ingin menggunakan perpustakaan yang nyaman. Kewajiban yang sebaiknya ia lakukan adalah ....",opts:["Mencoret meja agar mudah dikenali","Mengembalikan buku tepat waktu dan menjaga ketenangan","Membawa pulang semua buku","Melarang teman masuk perpustakaan"],a:1,why:"Menjaga ketenangan dan mengembalikan buku tepat waktu merupakan kewajiban pengguna perpustakaan."},
+{type:"mc",difficulty:"Sedang",q:"Ketika teman sedang menyampaikan pendapat, sikap yang menghormati haknya adalah ....",opts:["Memotong pembicaraannya","Menertawakannya","Mendengarkan sampai selesai","Memaksanya mengikuti pendapat kita"],a:2,why:"Setiap orang memiliki hak menyampaikan pendapat. Kita perlu mendengarkan dengan santun."},
+{type:"mc",difficulty:"Sedang",q:"Doni selalu menuntut dibersihkan kelasnya, tetapi tidak mau menjalankan piket. Akibat yang mungkin terjadi adalah ....",opts:["Kelas menjadi lebih bersih dengan sendirinya","Pekerjaan menjadi tidak adil dan kelas kotor","Semua teman semakin senang","Kewajiban piket tidak diperlukan lagi"],a:1,why:"Jika seseorang hanya menuntut hak tanpa menjalankan kewajiban, beban menjadi tidak adil dan lingkungan dapat terganggu."},
+{type:"mc",difficulty:"Sedang",q:"Contoh pelaksanaan kewajiban di lingkungan masyarakat adalah ....",opts:["Ikut menjaga kebersihan lingkungan","Menggunakan fasilitas umum sesuka hati","Membuang sampah ke selokan","Mengganggu kegiatan warga"],a:0,why:"Menjaga kebersihan lingkungan adalah bentuk tanggung jawab sebagai anggota masyarakat."},
+{type:"mc",difficulty:"Menantang",q:"Warga mendapat hak menggunakan taman umum. Agar hak semua warga tetap terjaga, tindakan yang tepat adalah ....",opts:["Menguasai taman sepanjang hari","Merusak tanaman agar terlihat berbeda","Menggunakan taman bergantian dan merawat fasilitasnya","Melarang anak-anak bermain"],a:2,why:"Menggunakan fasilitas secara tertib dan merawatnya membuat semua warga dapat menikmati hak yang sama."},
+{type:"mc",difficulty:"Menantang",q:"Sekolah menyediakan air bersih untuk siswa. Tindakan yang menunjukkan keseimbangan hak dan kewajiban adalah ....",opts:["Membiarkan keran terus terbuka","Menggunakan air secukupnya dan menutup keran setelah dipakai","Menghalangi teman mengambil air","Menggunakan air untuk bermain hingga habis"],a:1,why:"Siswa berhak menggunakan air bersih, sekaligus berkewajiban menghemat dan menjaga ketersediaannya."},
+{type:"mc",difficulty:"Sedang",q:"Saat kerja kelompok, setiap anggota memiliki hak untuk ....",opts:["Mendapat kesempatan menyampaikan ide","Menolak semua tugas","Memerintah anggota lain","Mengambil hasil kerja sendiri"],a:0,why:"Setiap anggota berhak menyampaikan pendapat dan memperoleh kesempatan berpartisipasi."},
+{type:"oral",difficulty:"Mudah",q:"Jelaskan dengan bahasamu sendiri perbedaan hak dan kewajiban, lalu berikan masing-masing satu contoh di sekolah.",ind:"Menjelaskan hak sebagai sesuatu yang diterima/diperoleh; kewajiban sebagai sesuatu yang harus dilakukan; memberi contoh yang tepat untuk keduanya.",why:"Hak adalah sesuatu yang kita terima, sedangkan kewajiban adalah sesuatu yang harus kita lakukan. Contoh hak: mendapat pelajaran. Contoh kewajiban: menaati tata tertib."},
+{type:"oral",difficulty:"Sedang",q:"Bayangkan kamu selesai menggunakan ruang kelas untuk kegiatan kelompok. Apa saja kewajibanmu agar teman lain juga dapat menggunakan kelas dengan nyaman? Jelaskan alasannya.",ind:"Menyebutkan tindakan relevan seperti merapikan meja/kursi, membuang sampah pada tempatnya, mengembalikan alat, dan menjelaskan manfaatnya bagi orang lain.",why:"Merapikan kelas, membuang sampah, dan mengembalikan perlengkapan membuat kelas nyaman serta menghormati hak pengguna berikutnya."},
+{type:"oral",difficulty:"Sedang",q:"Berikan satu contoh keadaan ketika hak seseorang terganggu karena orang lain tidak melaksanakan kewajibannya. Apa solusi yang sebaiknya dilakukan?",ind:"Memberikan contoh hubungan sebab-akibat yang masuk akal dan solusi yang adil, santun, serta bertanggung jawab.",why:"Contoh: teman tidak menjalankan piket sehingga kelas kotor dan hak teman belajar dengan nyaman terganggu. Solusinya membagi tugas secara adil dan mengingatkan dengan santun."},
+{type:"oral",difficulty:"Menantang",q:"Di lingkungan tempat tinggalmu ada fasilitas taman bermain bersama. Jelaskan dua hak warga dan dua kewajiban warga agar taman tetap dapat digunakan semua orang.",ind:"Menyebutkan sedikitnya dua hak (menggunakan taman, bermain dengan aman/nyaman) dan dua kewajiban (menjaga kebersihan, merawat fasilitas, antre/berbagi, mematuhi aturan).",why:"Warga berhak memakai taman dengan aman dan nyaman. Warga berkewajiban menjaga kebersihan, merawat fasilitas, dan berbagi penggunaan secara tertib."}
+];
+const colors=["#2563eb","#e11d48","#7c3aed","#0891b2","#ea580c","#16a34a","#9333ea","#db2777","#0d9488","#4f46e5","#ca8a04","#0284c7","#be123c","#65a30d","#6d28d9"];
+const arena=document.getElementById("arena"), overlay=document.getElementById("modalOverlay");
+let state=[], current=-1, anim=[];
+function init(){
+ state=questions.map(()=>({done:false,score:0,answer:"",note:""})); current=-1;
+ document.getElementById("result").style.display="none";document.getElementById("game").style.display="grid";
+ arena.innerHTML="";anim=[];
+ const w=arena.clientWidth,h=arena.clientHeight;
+ questions.forEach((q,i)=>{
+  const el=document.createElement("button");el.className="ball";el.type="button";el.textContent=i+1;el.setAttribute("aria-label","Bola soal "+(i+1));
+  el.style.background=colors[i];arena.appendChild(el);
+  const size=65;anim.push({el,x:Math.random()*Math.max(1,w-size),y:Math.random()*Math.max(1,h-size),vx:(Math.random()>.5?1:-1)*(1.05+Math.random()*1.25),vy:(Math.random()>.5?1:-1)*(1.05+Math.random()*1.25),size});
+  el.addEventListener("click",()=>openQuestion(i));
+ });
+ updateStats();closeModal();requestAnimationFrame(tick);
+}
+function tick(){
+ const w=arena.clientWidth,h=arena.clientHeight;
+ anim.forEach(o=>{if(state[Number(o.el.textContent)-1].done)return;o.x+=o.vx;o.y+=o.vy;if(o.x<=0||o.x+o.size>=w)o.vx*=-1;if(o.y<=0||o.y+o.size>=h)o.vy*=-1;o.x=Math.max(0,Math.min(w-o.size,o.x));o.y=Math.max(0,Math.min(h-o.size,o.y));o.el.style.transform=`translate(${o.x}px,${o.y}px)`;});
+ if(document.getElementById("game").style.display!=="none")requestAnimationFrame(tick);
+}
+function openQuestion(i){
+ if(state[i].done)return;current=i;const q=questions[i];
+ document.getElementById("qType").textContent=q.type==="mc"?"MULTIPLE CHOICE":"ORAL ANSWER";
+ document.getElementById("qNumber").textContent="BOLA / SOAL "+(i+1)+" · KESULITAN "+q.difficulty.toUpperCase();
+ document.getElementById("questionTitle").textContent=q.q;
+ const body=document.getElementById("questionBody");body.innerHTML="";
+ document.getElementById("explain").classList.remove("show");
+ document.getElementById("submitBtn").style.display="inline-block";document.getElementById("submitBtn").textContent=q.type==="mc"?"Periksa Jawaban":"Simpan Penilaian";
+ if(q.type==="mc"){
+  q.opts.forEach((opt,j)=>{const label=document.createElement("label");label.className="choice";label.innerHTML=`<input type="radio" name="answer" value="${j}"><span><b>${"ABCD"[j]}.</b> ${escapeHtml(opt)}</span>`;body.appendChild(label);});
+ }else{
+  body.innerHTML=`<div class="oralbox"><b>Petunjuk untuk guru — indikator jawaban:</b><p>${escapeHtml(q.ind)}</p><label for="oralAnswer"><b>Catatan jawaban siswa (opsional)</b></label><textarea id="oralAnswer" placeholder="Tuliskan inti jawaban siswa..."></textarea><div class="rubric"><b>Rubrik penilaian:</b><br>100 = benar/sangat tepat · 50 = sebagian benar/cukup tepat · 0 = salah/belum tepat</div><b>Pilih skor guru:</b><div class="score-options"><button class="secondary" data-score="100">100 · Sangat tepat</button><button class="secondary" data-score="50">50 · Cukup tepat</button><button class="secondary" data-score="0">0 · Belum tepat</button></div><label for="teacherNote"><b>Catatan / umpan balik guru</b></label><input class="teacher-note" id="teacherNote" placeholder="Catatan guru (opsional)"></div>`;
+  body.querySelectorAll("[data-score]").forEach(b=>b.addEventListener("click",()=>{body.querySelectorAll("[data-score]").forEach(x=>x.style.borderColor="#cbd5e1");b.style.borderColor="#2563eb";b.style.background="#eff6ff";body.dataset.score=b.dataset.score;}));
+ }
+ overlay.classList.add("show");
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function submit(){
+ if(current<0)return;const q=questions[current],s=state[current];let score=0,answer="",note="";
+ if(q.type==="mc"){
+  const chosen=document.querySelector('input[name="answer"]:checked');if(!chosen){alert("Pilih salah satu jawaban terlebih dahulu.");return;}
+  const val=Number(chosen.value);answer=""+ "ABCD"[val]+". "+q.opts[val];score=val===q.a?100:0;
+  document.querySelectorAll(".choice").forEach((el,j)=>{if(j===q.a)el.classList.add("correct");if(j===val&&val!==q.a)el.classList.add("wrong");el.querySelector("input").disabled=true;});
+ }else{
+  if(!document.getElementById("oralAnswer"))return;
+  const selected=document.getElementById("questionBody").dataset.score;
+  if(selected===undefined){alert("Guru harus memilih skor 100, 50, atau 0.");return;}
+  score=Number(selected);answer=document.getElementById("oralAnswer").value.trim()||"(Jawaban disampaikan secara lisan)";note=document.getElementById("teacherNote").value.trim();
+ }
+ s.done=true;s.score=score;s.answer=answer;s.note=note;
+ document.getElementById("feedback").textContent=q.type==="mc"?(score===100?"Hebat! Jawabanmu benar!":"Tetap semangat! Mari pelajari pembahasannya."):(score===100?"Bagus! Jawaban sangat tepat!":score===50?"Usaha yang baik! Ada bagian yang sudah tepat.":"Terima kasih sudah berusaha. Ayo belajar lagi!");
+ document.getElementById("explanation").innerHTML="<b>Pembahasan:</b> "+escapeHtml(q.why)+(note?"<br><b>Catatan guru:</b> "+escapeHtml(note):"");
+ document.getElementById("explain").classList.add("show");document.getElementById("submitBtn").style.display="none";document.getElementById("cancelBtn").textContent="Selesai";
+ updateStats();
+}
+function closeModal(){overlay.classList.remove("show");current=-1;document.getElementById("cancelBtn").textContent="Tutup";}
+function updateStats(){
+ const done=state.filter(x=>x.done).length,score=state.reduce((a,x)=>a+x.score,0),correct=state.filter((x,i)=>x.done&&x.score===100).length;
+ document.getElementById("answered").textContent=`${done} / 15`;document.getElementById("correct").textContent=correct;document.getElementById("score").textContent=`${score} / 1500`;document.getElementById("progress").style.width=(done/15*100)+"%";
+ if(done===15)setTimeout(showResult,350);
+}
+function showResult(){
+ document.getElementById("game").style.display="none";document.getElementById("result").style.display="block";
+ const score=state.reduce((a,x)=>a+x.score,0),correct=state.filter(x=>x.score===100).length,wrong=15-correct,grade=Math.round(score/15);
+ document.getElementById("rCorrect").textContent=correct;document.getElementById("rWrong").textContent=wrong;document.getElementById("rGrade").textContent=grade;document.getElementById("rScore").textContent=`${score} / 1500`;
+ let cat=grade>=90?"Sangat Baik":grade>=80?"Baik":grade>=70?"Cukup":"Perlu Bimbingan";
+ document.getElementById("motivation").textContent=`Kategori: ${cat}. ${grade>=90?"Luar biasa! Pertahankan sikap bertanggung jawab dan terus menjadi teladan.":grade>=80?"Bagus! Terus tingkatkan pemahaman dan kebiasaan baikmu.":grade>=70?"Terus berlatih agar semakin memahami keseimbangan hak dan kewajiban.":"Jangan menyerah. Pelajari kembali materi dan berlatih bersama guru."}`;
+ const body=document.getElementById("reviewBody");body.innerHTML="";
+ questions.forEach((q,i)=>{const tr=document.createElement("tr"),s=state[i];const key=q.type==="mc"?"ABCD"[q.a]+". "+q.opts[q.a]:q.ind;[i+1,q.type==="mc"?"Pilihan ganda":"Lisan",q.q,s.answer,key,s.score,s.note||"—"].forEach(v=>{const td=document.createElement("td");td.textContent=v;tr.appendChild(td);});body.appendChild(tr);});
+}
+document.getElementById("submitBtn").addEventListener("click",submit);
+document.getElementById("closeModal").addEventListener("click",closeModal);
+document.getElementById("cancelBtn").addEventListener("click",()=>{if(current>=0&&state[current].done)closeModal();else closeModal();});
+overlay.addEventListener("click",e=>{if(e.target===overlay)closeModal();});
+document.getElementById("helpBtn").addEventListener("click",()=>document.getElementById("helpOverlay").classList.add("show"));
+document.getElementById("closeHelp").addEventListener("click",()=>document.getElementById("helpOverlay").classList.remove("show"));
+document.getElementById("helpOverlay").addEventListener("click",e=>{if(e.target.id==="helpOverlay")e.currentTarget.classList.remove("show");});
+document.getElementById("again").addEventListener("click",init);
+document.getElementById("reviewBtn").addEventListener("click",()=>{const a=document.getElementById("reviewArea");a.style.display=a.style.display==="none"?"block":"none";});
+document.getElementById("printBtn").addEventListener("click",()=>window.print());
+window.addEventListener("resize",()=>{anim.forEach(o=>{o.x=Math.min(o.x,Math.max(0,arena.clientWidth-o.size));o.y=Math.min(o.y,Math.max(0,arena.clientHeight-o.size));});});
+init();
+</script>
+</body>
+</html>
